@@ -11,6 +11,7 @@ import datetime, glob, json, os, subprocess, vosk
 # the model 'vosk-model-es-0.42' (the smaller one's quality is way too inferior). By just downloading and 
 # defining the route to another model, one can use this script for other languages supported by vosk. 
 
+vosk.SetLogLevel(-1) # Disables LOG output.
 
 class Speech2Text():
     def __init__(self, model_path: str, sample_rate: int = 16000, chunk_size: int = 5000, verbose : bool = True):
@@ -41,9 +42,6 @@ class Speech2Text():
             filename -> path to the file that will be analyzed by the function.
             self.verbose -> If set to true, will print the execution time by the end of the analysis.
         '''
-        if not os.path.exists(filename):
-            raise FileNotFoundError(filename)
-
         rec = vosk.KaldiRecognizer(self.model, self.sample_rate)
         rec.SetWords(True)
         transcription = []
@@ -71,8 +69,8 @@ class Speech2Text():
             This function performs the transcription of all audio sources found within the given folder path.
             Returns a list of dicts following this structure:
             {
-                Filename : <filename of the audiofile>,
-                Script : [<chunk1>, <chunk2>, ...] # list[str] containing the transcript of the audiofile.
+                "Filename": filename of the audiofile,
+                "Script": [chunk1, chunk2, ...] # list[str] containing the transcript of the audiofile.
             }
             
             Parameters
