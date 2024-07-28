@@ -14,7 +14,7 @@ import datetime, glob, json, os, subprocess, vosk
 vosk.SetLogLevel(-1) # Disables LOG output.
 
 class Speech2Text():
-    def __init__(self, model_path: str, sample_rate: int = 16000, chunk_size: int = 5000, verbose : bool = True):
+    def __init__(self, model: str, sample_rate: int = 16000, chunk_size: int = 5000, verbose : bool = True):
         '''
             This class offers methods based on Vosk that allow to read audio files to then return their scripts.
 
@@ -27,7 +27,7 @@ class Speech2Text():
             seem roughly the same with the few variations that I tried, I would not spend much time fine-tunning this parameter.
             verbose -> will print some useful information (such as execution time, current process...)
         '''
-        self.model = vosk.Model(model_path)
+        self.model = vosk.Model(model)
         self.sample_rate = sample_rate
         self.chunk_size = chunk_size
         self.verbose = verbose
